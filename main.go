@@ -1,6 +1,9 @@
 //Decode output from the server on *nix:
 //for i in $(seq 0 15); do curl -s -w "%{time_total}" -o /dev/null 'http://localhost:3333?bitNumber='"$i" | awk -F '.' '{print $1}'; done | tr '31' '01' | tr -d '\n'
 
+//Decode using powershell
+//0..15 | % {Measure-Command -Expression { iwr "http://localhost:3333?bitNumber=$_"} | select -Property TotalSeconds } | % {[math]::Round($_.TotalSeconds) -replace "3","0" -replace "1", "1"} | join-string 
+
 /*
 TODO:
    * Implement checksum
